@@ -121,7 +121,7 @@ class XMPPHandler(xmpp_handlers.CommandHandler):
   # List subscriptions by page
   # 10/page
   # page default to 1
-  def ls_command(self, page_index=1, message=None):
+  def ls_command(self, message=None):
     message = xmpp.Message(self.request.POST)
     subscriber = message.sender.rpartition("/")[0]
     query = Subscription.all().filter("jid =",subscriber).order("-created_at")
@@ -130,7 +130,14 @@ class XMPPHandler(xmpp_handlers.CommandHandler):
       pages_count = count/10
     else:
       pages_count = count/10 + 1
-    page_index = min(page_index, pages_count)
+
+    try:
+      page_arg = int(message.arg.split(" ")[0])
+    except:
+      message.reply("Invalid page number, default to 1.\n")
+      page_arg = 1
+
+    page_index = min(page_arg, pages_count)
     offset = (page_index - 1) * 10 
     subscriptions = query.fetch(10, offset)
     if not subscriptions:
