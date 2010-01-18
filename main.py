@@ -124,7 +124,7 @@ class XMPPHandler(xmpp_handlers.CommandHandler):
   def ls_command(self, message=None):
     message = xmpp.Message(self.request.POST)
     subscriber = message.sender.rpartition("/")[0]
-    query = Subscription.all().filter("jid =",subscriber).order("-created_at")
+    query = Subscription.all().filter("jid =",subscriber).order("feed")
     count = query.count()
     if count%10 == 0:
       pages_count = count/10

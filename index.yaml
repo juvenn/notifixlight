@@ -3,6 +3,12 @@ indexes:
 - kind: Subscription
   properties:
   - name: jid
+  - name: feed
+    direction: asc
+
+- kind: Subscription
+  properties:
+  - name: jid
   - name: created_at
     direction: desc
 
