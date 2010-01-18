@@ -132,7 +132,7 @@ class XMPPHandler(xmpp_handlers.CommandHandler):
       pages_count = count/10 + 1
 
     try:
-      page_arg = int(message.arg.split(" ")[0])
+      page_arg = int(message.arg.split(" ")[0]) if message.arg else 1
     except:
       message.reply("Invalid page number, default to 1.\n")
       page_arg = 1
